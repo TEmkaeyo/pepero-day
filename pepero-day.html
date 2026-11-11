@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pepero Day 11.11</title>
+<style>
+:root{--bg:#fff1f3;--fg:#4a2a1c;--pink:#e8466b;--choc:#5a3420;--choc2:#3d2214;--bis:#e8c98a;--card:#ffffff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241418;--fg:#fbe4e8;--pink:#ff6b8d;--card:#33202a}}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;overflow:hidden;text-align:center}
+h1{margin:0;font-size:1.6rem;color:var(--pink)}
+.hint{margin:0;opacity:.75;font-size:1rem}
+.stage{position:relative;width:260px;height:340px;display:flex;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.half{position:absolute;left:50%;width:56px;margin-left:-28px;transition:transform .6s cubic-bezier(.3,1.6,.5,1)}
+.top{top:20px;height:156px;background:radial-gradient(circle at 30% 20%,#7a4a30,var(--choc) 60%,var(--choc2));border-radius:28px 28px 0 0;transform-origin:50% 100%;
+clip-path:polygon(0 0,100% 0,100% 100%,75% 94%,50% 100%,25% 93%,0 100%)}
+.bot{top:172px;height:150px;background:linear-gradient(var(--choc) 0 64px,var(--bis) 64px);border-radius:0 0 10px 10px;transform-origin:50% 0;
+clip-path:polygon(0 6px,25% 0,50% 7px,75% 1px,100% 6px,100% 100%,0 100%)}
+.top::after{content:"";position:absolute;inset:0;background:
+radial-gradient(circle,#ff5d8f 0 2px,transparent 3px) 8px 14px/22px 26px,
+radial-gradient(circle,#fff 0 2px,transparent 3px) 18px 26px/22px 26px,
+radial-gradient(circle,#ffd23f 0 2px,transparent 3px) 2px 30px/24px 28px}
+.broken .top{transform:translate(-46px,-14px) rotate(-28deg)}
+.broken .bot{transform:translate(40px,16px) rotate(18deg)}
+.snap{position:absolute;top:150px;left:50%;transform:translate(-50%,0) scale(0);font-weight:800;font-size:2rem;color:var(--pink);transition:transform .25s;pointer-events:none}
+.broken .snap{transform:translate(-50%,-20px) scale(1);animation:fade 1.1s forwards}
+@keyframes fade{0%,60%{opacity:1}100%{opacity:0}}
+.msg{background:var(--card);border-radius:18px;padding:14px 22px;font-size:1.25rem;font-weight:700;box-shadow:0 6px 24px rgba(0,0,0,.12);opacity:0;transform:translateY(12px) scale(.9);transition:all .5s .25s;max-width:80vw}
+.show .msg{opacity:1;transform:none}
+button{border:0;background:var(--pink);color:#fff;border-radius:99px;padding:10px 22px;font-size:1rem;cursor:pointer;opacity:0;transition:opacity .4s .6s}
+.show button{opacity:1}
+.crumb{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--choc);pointer-events:none;transition:transform .8s ease-out,opacity .8s}
+.stick{position:absolute;inset:0;opacity:0;transform:translateY(50px);transition:opacity .5s .2s,transform .6s .2s}
+.opened .stick{opacity:1;transform:none}
+.box{position:absolute;left:50%;top:70px;width:150px;height:250px;margin-left:-75px;border-radius:12px;background:linear-gradient(160deg,#ff6b8d,#d62f58);box-shadow:0 10px 26px rgba(0,0,0,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;font-weight:800;font-size:1.5rem;transition:transform .7s,opacity .6s;animation:wob 2s ease-in-out infinite}
+.box small{font-size:.9rem;font-weight:600;opacity:.9}
+.box::before{content:"";position:absolute;top:14px;left:14px;right:14px;height:10px;border-radius:5px;background:rgba(255,255,255,.35)}
+.opened .box{animation:none;transform:translateY(140px) rotate(8deg);opacity:0;pointer-events:none}
+@keyframes wob{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.box{background:linear-gradient(#fff,#fff0f4);color:#d62f58;justify-content:flex-start;gap:0;padding-top:16px;box-sizing:border-box;font-weight:800;border:1px solid #f3c6d2;overflow:hidden}
+.box::before{display:none}
+.box .say{font-size:.7rem;font-weight:600;color:#555;opacity:1}
+.box .logo{font-size:1.55rem;letter-spacing:1px;color:#c8204f;line-height:1.1}
+.box .sticks{position:relative;width:70px;height:112px;margin-top:6px}
+.box .sticks i{position:absolute;bottom:0;width:13px;height:104px;border-radius:7px 7px 3px 3px;background:radial-gradient(circle,#fff 0 1.5px,transparent 2px) 0 0/7px 9px,linear-gradient(#f77fa0 0 70%,#e8c98a 70%)}
+.box .sticks i:nth-child(1){left:18px;transform:rotate(-9deg)}
+.box .sticks i:nth-child(2){left:40px;transform:rotate(7deg)}
+.box .fl{font-family:Georgia,serif;font-style:italic;font-weight:700;font-size:1.25rem;color:#e8466b;margin-top:6px}
+.box .sb{position:absolute;bottom:6px;left:6px;font-size:2.3rem;transform:rotate(-12deg)}
+.box .sb2{left:auto;right:6px;font-size:1.9rem;transform:rotate(14deg)}
+.top{background:radial-gradient(circle at 30% 20%,#ffc2d3,#f77fa0 60%,#e85a86)}
+.bot{background:linear-gradient(#f77fa0 0 64px,var(--bis) 64px)}
+.top::after{background:radial-gradient(circle,#fff 0 2px,transparent 3px) 8px 14px/20px 24px,radial-gradient(circle,#ffd9e4 0 2px,transparent 3px) 18px 26px/20px 24px,radial-gradient(circle,#c8204f 0 1.5px,transparent 2.5px) 2px 30px/24px 28px}
+body{background:radial-gradient(circle at 50% 38%,rgba(255,255,255,.7),transparent 58%),radial-gradient(circle at 12% 88%,rgba(255,107,141,.28),transparent 45%),radial-gradient(circle at 92% 8%,rgba(255,170,195,.35),transparent 42%),var(--bg)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body{background:radial-gradient(circle at 50% 38%,rgba(255,107,141,.18),transparent 58%),radial-gradient(circle at 12% 88%,rgba(255,107,141,.2),transparent 45%),var(--bg)}}
+body>*:not(.bg){position:relative;z-index:1}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bg span{position:absolute;bottom:-50px;animation:rise linear infinite;opacity:.8;filter:drop-shadow(0 2px 3px rgba(0,0,0,.12))}
+@keyframes rise{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(24px,-55vh) rotate(18deg)}100%{transform:translate(-14px,-115vh) rotate(-14deg)}}
+.stick{filter:drop-shadow(0 9px 6px rgba(0,0,0,.3))}
+.top{background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(255,255,255,.34) 26%,rgba(255,255,255,0) 46%,rgba(0,0,0,.2)),radial-gradient(circle at 30% 20%,#ffc2d3,#f77fa0 60%,#e85a86)}
+.bot{background:linear-gradient(90deg,rgba(0,0,0,.16),rgba(255,255,255,.3) 26%,rgba(255,255,255,0) 46%,rgba(0,0,0,.18)),linear-gradient(#f77fa0 0 62px,#d99a9a 62px 64px,#e8c98a 64px)}
+.bot::before{content:"";position:absolute;left:0;right:0;top:60px;height:12px;background:radial-gradient(circle at 50% 0,#f06a92 0 7px,transparent 7.5px) 0 0/14px 12px repeat-x}
+.bot::after{content:"";position:absolute;left:0;right:0;top:72px;bottom:0;background:repeating-linear-gradient(0deg,transparent 0 5px,rgba(120,70,20,.14) 5px 6px)}
+.box{box-shadow:0 22px 34px rgba(120,20,50,.35),inset -2px 0 0 rgba(255,255,255,.6)}
+.box::before{display:block;content:"";position:absolute;right:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg,transparent,rgba(200,32,79,.2))}
+.box::after{content:"";position:absolute;top:0;left:0;right:0;height:11px;background:linear-gradient(#f6c3d1,#fff0f4);border-bottom:1px solid #e9b3c3}
+</style>
+</head>
+<body>
+<div class="bg" id="bg"></div><h1>Pepero Day 11.11 🍫</h1>
+<p class="hint" id="hint">Peperо deer darj uz 👇</p>
+<div class="stage" id="stage" role="button" aria-label="Pepero">
+  <div class="stick">
+    <div class="half top"></div>
+    <div class="half bot"></div>
+    <div class="snap">SNAP!</div>
+  </div>
+  <div class="box"><small class="say">Say hello with</small><b class="logo">PEPERO</b><span class="sticks"><i></i><i></i></span><em class="fl">strawberry</em><span class="sb">🍓</span><span class="sb sb2">🍓</span></div>
+</div>
+<div class="msg" id="msg">mundag shuu, ci hiceej baigaashu 💗</div>
+<button id="again">dahin</button>
+<script>
+(function(){const bg=document.getElementById('bg'),e=['🦋'];
+for(let i=0;i<24;i++){const s=document.createElement('span');s.textContent=e[i%e.length];
+s.style.left=(Math.random()*96)+'%';s.style.filter='hue-rotate('+Math.floor(Math.random()*360)+'deg) drop-shadow(0 2px 3px rgba(0,0,0,.15))';s.style.fontSize=(14+Math.random()*26)+'px';
+s.style.animationDuration=(9+Math.random()*9)+'s';s.style.animationDelay=(-Math.random()*16)+'s';bg.appendChild(s);}})();
+const b=document.body,st=document.getElementById('stage');
+function crumbs(){
+  for(let i=0;i<14;i++){
+    const c=document.createElement('div');c.className='crumb';
+    c.style.left='50%';c.style.top='170px';
+    c.style.background=['#f77fa0','#ff5d8f','#ffd1de','#fff'][i%4];
+    st.appendChild(c);
+    requestAnimationFrame(()=>{
+      c.style.transform='translate('+((Math.random()-.5)*220)+'px,'+(Math.random()*120-30)+'px)';
+      c.style.opacity='0';
+    });
+    setTimeout(()=>c.remove(),900);
+  }
+}
+const hint=document.getElementById('hint');hint.textContent='Savyg darj neej uz 🎁';
+st.addEventListener('click',()=>{
+  if(!b.classList.contains('opened')){b.classList.add('opened');hint.textContent='Odoo pepero deer darj uz 👇';return;}
+  if(b.classList.contains('broken'))return;
+  b.classList.add('broken','show');crumbs();
+  if(navigator.vibrate)try{navigator.vibrate(40)}catch(e){}
+});
+document.getElementById('again').addEventListener('click',()=>{b.classList.remove('broken','show','opened');hint.textContent='Savyg darj neej uz 🎁'});
+</script>
+</body>
+</html>
